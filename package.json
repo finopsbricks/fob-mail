@@ -1,0 +1,60 @@
+{
+  "name": "@finopsbricks/fob-mail",
+  "version": "0.1.0",
+  "description": "Client and CLI for Mail (mail.finopsbricks.com): read, label, assign and reply to a firm's client mail from the terminal, an AI agent or your code.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./package.json": "./package.json"
+  },
+  "bin": {
+    "fob-mail": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "src",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE"
+  ],
+  "scripts": {
+    "start": "node bin/cli.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "typecheck": "tsc -p jsconfig.json"
+  },
+  "keywords": [
+    "email",
+    "gmail",
+    "api-client",
+    "cli",
+    "accounting",
+    "ai-agents",
+    "finops",
+    "finopsbricks"
+  ],
+  "license": "Apache-2.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/finopsbricks/fob-mail.git"
+  },
+  "homepage": "https://mail.finopsbricks.com/docs/cli",
+  "bugs": "https://github.com/finopsbricks/fob-mail/issues",
+  "dependencies": {
+    "commander": "^15.0.0",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@types/node": "^22.20.1",
+    "jest": "^29.7.0",
+    "typescript": "^5.8.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

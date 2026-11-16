@@ -1,0 +1,17 @@
+import { addOrg } from '../config-store.js';
+import { refreshIdentity } from './_identity.js';
+
+export async function addConfigHandler(argv) {
+  addOrg(argv.name, {
+    api_url: argv.apiUrl,
+    api_key: argv.apiKey,
+    api_secret: argv.apiSecret,
+  });
+  console.log(`Saved Mail credentials for profile '${argv.name}'.`);
+
+  // Resolve the org identity so the profile is self-describing. Best-effort:
+  // a failed fetch never blocks saving the credentials.
+  if (await refreshIdentity(argv.name)) {
+    console.log(`Resolved the firm for '${argv.name}'.`);
+  }
+}
