@@ -1,7 +1,7 @@
 {
   "name": "@finopsbricks/fob-mail",
   "version": "0.1.0",
-  "description": "Client and CLI for Mail (mail.finopsbricks.com): read, label, assign and reply to a firm's client mail from the terminal, an AI agent or your code.",
+  "description": "Mail API client and CLI for accounting firms: read, label, assign and reply to the client mailboxes a firm has connected in Mail (mail.finopsbricks.com), from the terminal, an AI agent or Node.js code.",
   "type": "module",
   "main": "src/index.js",
   "exports": {
@@ -26,10 +26,16 @@
   },
   "keywords": [
     "email",
+    "email-client",
+    "shared-mailbox",
+    "accounting",
+    "accounting-firms",
+    "bookkeeping",
     "gmail",
+    "email-automation",
     "api-client",
     "cli",
-    "accounting",
+    "nodejs",
     "ai-agents",
     "finops",
     "finopsbricks"

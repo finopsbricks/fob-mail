@@ -65,7 +65,7 @@ const NEXT_STEP = {
   FORBIDDEN: "This key's preset doesn't allow that. A firm admin can create a key with the right preset in Mail: Settings → API keys.",
   NOT_FOUND: "Check the id. The key may not have access to that mailbox: `fob-mail mailboxes list` shows the ones it has.",
   MAILBOX_NEEDS_RECONNECT: 'A firm admin reconnects the mailbox in Mail: Settings → Mailboxes. Then run the same command again.',
-  SEND_NOT_SUPPORTED: 'Replies can be sent only from Google mailboxes for now.',
+  SEND_NOT_SUPPORTED: 'Mail can be sent only from connected Google mailboxes for now; `fob-mail mailboxes list` shows which can send.',
   SEND_REFUSED: 'Nothing was sent. Fix the cause, then run the same command again: the same idempotency key is safe to retry.',
   NO_CREDENTIALS: 'Run `fob-mail getting-started`.',
 };

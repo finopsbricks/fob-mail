@@ -42,7 +42,7 @@ export function printRecord(argv, record, renderText) {
   console.log(renderText(record));
 }
 
-/** "Kumar & Co accounts <accounts@citara.org>", or just the address. */
+/** "Acme accounts <accounts@acme.example>", or just the address. */
 export function mailboxName(m) {
   if (!m) return '';
   return m.label ? `${m.label} <${m.email_address}>` : m.email_address;

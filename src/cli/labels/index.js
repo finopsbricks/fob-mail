@@ -10,14 +10,17 @@ import { listLabelsHandler } from './list.js';
 import { createLabelHandler } from './create.js';
 
 export function buildLabelsCommand() {
-  const labels = new Command('labels').description("The firm's labels");
+  const labels = new Command('labels').description("List and create the firm's labels (label a thread with threads edit)");
 
-  labels
-    .command('list')
-    .description('List labels')
-    .addOption(new Option('--format <format>', 'Output format').choices(['table', 'csv', 'json']))
-    .option('--json', 'Output raw JSON')
-    .action(safe(listLabelsHandler));
+  examples(
+    labels
+      .command('list')
+      .description("List the firm's labels")
+      .addOption(new Option('--format <format>', 'Output format').choices(['table', 'csv', 'json']))
+      .option('--json', 'Output raw JSON')
+      .action(safe(listLabelsHandler)),
+    ['fob-mail labels list', 'fob-mail labels list --json'],
+  );
 
   examples(
     jsonOption(

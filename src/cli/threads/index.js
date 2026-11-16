@@ -65,7 +65,7 @@ export function buildThreadsCommand() {
     jsonOption(
       threads
         .command('reply')
-        .description("Reply from the client's mailbox (plain text, Google mailboxes); never sends twice")
+        .description("Send a reply from the client's mailbox to the last sender; can't be undone (plain text, Google mailboxes only; never sends twice)")
         .argument('<id>', 'Thread ID')
         .option('--body <text>', 'The reply')
         .option('--body-file <path>', 'Read the reply from a file (- for stdin)')

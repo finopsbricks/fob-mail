@@ -19,16 +19,22 @@ function buildProfilesCommand() {
     .alias('orgs')
     .description('Manage credential profiles, one per firm (alias: orgs)');
 
-  jsonOption(profiles.command('list').description('List profiles (current marked with *)')).action(
-    safe(listConfigHandler),
+  examples(
+    jsonOption(profiles.command('list').description('List profiles (current marked with *)')).action(
+      safe(listConfigHandler),
+    ),
+    ['fob-mail config profiles list'],
   );
 
-  jsonOption(
-    profiles
-      .command('current')
-      .alias('whoami')
-      .description('Show the active profile and its firm'),
-  ).action(safe(currentConfigHandler));
+  examples(
+    jsonOption(
+      profiles
+        .command('current')
+        .alias('whoami')
+        .description('Show the active profile and its firm (run this first to confirm which firm you are in)'),
+    ).action(safe(currentConfigHandler)),
+    ['fob-mail config profiles current', 'fob-mail config profiles current --json'],
+  );
 
   examples(
     profiles
@@ -39,28 +45,37 @@ function buildProfilesCommand() {
       .requiredOption('--api-key <key>', 'API key (starts with fob_mail_)')
       .requiredOption('--api-secret <secret>', 'API secret')
       .action(safe(addConfigHandler)),
-    ['fob-mail config profiles add kumar-co --api-key fob_mail_xxxx --api-secret yyyy'],
+    ['fob-mail config profiles add acme --api-key fob_mail_xxxx --api-secret yyyy'],
   );
 
-  profiles
-    .command('use')
-    .description('Set the current profile')
-    .argument('<name>', 'Profile name')
-    .action(safe(useConfigHandler));
+  examples(
+    profiles
+      .command('use')
+      .description('Set the current profile')
+      .argument('<name>', 'Profile name')
+      .action(safe(useConfigHandler)),
+    ['fob-mail config profiles use acme'],
+  );
 
-  profiles
-    .command('remove')
-    .alias('rm')
-    .description('Remove a profile')
-    .argument('<name>', 'Profile name')
-    .action(safe(removeConfigHandler));
+  examples(
+    profiles
+      .command('remove')
+      .alias('rm')
+      .description("Remove a profile from this machine's config (the key itself stays valid in Mail)")
+      .argument('<name>', 'Profile name')
+      .action(safe(removeConfigHandler)),
+    ['fob-mail config profiles remove acme'],
+  );
 
-  profiles
-    .command('refresh')
-    .description("Refresh a profile's firm from the server (--all for every profile)")
-    .argument('[name]', 'Profile name (omit with --all)')
-    .option('--all', 'Refresh every profile')
-    .action(safe(refreshConfigHandler));
+  examples(
+    profiles
+      .command('refresh')
+      .description("Refresh a profile's firm from the server (--all for every profile)")
+      .argument('[name]', 'Profile name (omit with --all)')
+      .option('--all', 'Refresh every profile')
+      .action(safe(refreshConfigHandler)),
+    ['fob-mail config profiles refresh acme', 'fob-mail config profiles refresh --all'],
+  );
 
   return profiles;
 }

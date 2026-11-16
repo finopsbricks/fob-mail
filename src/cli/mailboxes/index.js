@@ -23,7 +23,10 @@ export function buildMailboxesCommand() {
     ['fob-mail mailboxes list', 'fob-mail mailboxes list --json'],
   );
 
-  idJsonCommand(mailboxes, 'show', 'Show one mailbox', 'Mailbox ID', showMailboxHandler);
+  examples(
+    idJsonCommand(mailboxes, 'show', 'Show one mailbox: address, provider, status, whether it can send, last sync', 'Mailbox ID', showMailboxHandler),
+    ['fob-mail mailboxes show mb4k2x9q1z7c', 'fob-mail mailboxes show mb4k2x9q1z7c --json'],
+  );
 
   return mailboxes;
 }

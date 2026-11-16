@@ -8,7 +8,7 @@ import { safe, jsonOption, examples } from '../_helpers.js';
 import { pullAttachmentHandler } from './pull.js';
 
 export function buildAttachmentsCommand() {
-  const attachments = new Command('attachments').description('Download attachments');
+  const attachments = new Command('attachments').description('Download attachments from client mail');
 
   examples(
     jsonOption(

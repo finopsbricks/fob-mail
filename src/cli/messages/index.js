@@ -31,7 +31,7 @@ export function buildMessagesCommand() {
       .action(safe(listMessagesHandler)),
     [
       'fob-mail messages list --direction inbound --updated-since 2026-11-17T09:00:00Z --all --json',
-      "fob-mail messages list --message-id '<CAF7x9@mail.vendor.in>'",
+      "fob-mail messages list --message-id '<CAF7x9@mail.vendor.example>'",
     ],
   );
 
@@ -61,7 +61,7 @@ export function buildMessagesCommand() {
     jsonOption(
       messages
         .command('send')
-        .description("Send a new message from the client's mailbox (plain text, Google mailboxes); never sends twice")
+        .description("Send a new message from the client's mailbox; can't be undone (plain text, Google mailboxes only, no attachments; never sends twice)")
         .requiredOption('--mailbox <id>', 'Mailbox to send from')
         .requiredOption('--to <address>', 'Recipient; repeatable', collect)
         .option('--cc <address>', 'Cc; repeatable', collect)
@@ -74,7 +74,7 @@ export function buildMessagesCommand() {
         ),
     ).action(safe(sendMessageHandler)),
     [
-      'fob-mail messages send --mailbox mb4k2x9q1z7c --to billing@vendor.in --subject "Statement for October" --body "Could you send the October statement?"',
+      'fob-mail messages send --mailbox mb4k2x9q1z7c --to billing@vendor.example --subject "Statement for October" --body "Could you send the October statement?"',
     ],
   );
 

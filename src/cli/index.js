@@ -37,8 +37,8 @@ export function run(argv) {
   program
     .name('fob-mail')
     .description(
-      "Read, label, assign and reply to a firm's client mail in Mail (mail.finopsbricks.com), " +
-        'from the terminal or an AI agent. For your own mailbox over IMAP, use fob-email.',
+      "Read, label, assign and reply to the client mailboxes an accounting firm has connected in Mail " +
+        '(mail.finopsbricks.com), from the terminal or an AI agent. For your own mailbox over IMAP, use fob-email.',
     )
     .usage('<resource> <action> [target] [options]')
     .version(packageVersion(), '-v, --version', 'Show version number')
@@ -50,12 +50,12 @@ export function run(argv) {
     })
     .addHelpText(
       'after',
-      `\nNew here? Run \`fob-mail getting-started\`.\nEvery read command takes --json.\nDocs: ${DOCS_URL}  ·  API: ${DOCS_URL}/api/authentication`,
+      `\nNew here? Run \`fob-mail getting-started\`.\nEvery read command takes --json. Sending (threads reply, messages send) can't be undone.\nDocs:   ${DOCS_URL}/cli\nAgents: ${DOCS_URL}/cli/ai-agents\nAPI:    ${DOCS_URL}/api/authentication`,
     );
 
   program
     .command('getting-started')
-    .description('Print setup instructions (skips if a profile exists)')
+    .description('Print setup steps for a person or an agent (says so if a profile already exists)')
     .action(safe(gettingStartedHandler));
 
   program
