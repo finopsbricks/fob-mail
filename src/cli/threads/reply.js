@@ -11,7 +11,7 @@ export function defaultReplyKey(thread_id, body_text) {
   return `fob-mail:${createHash('sha256').update(`reply\n${thread_id}\n${body_text}`).digest('hex').slice(0, 32)}`;
 }
 
-function readBody(argv) {
+export function readBody(argv) {
   if (argv.body !== undefined && argv.bodyFile) throw new Error('Pass --body or --body-file, not both.');
   const text = argv.bodyFile ? readFileSync(argv.bodyFile === '-' ? 0 : argv.bodyFile, 'utf8') : argv.body;
   if (!text || !text.trim()) throw new Error('The reply is empty: pass --body <text> or --body-file <path>.');

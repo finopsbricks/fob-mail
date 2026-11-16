@@ -73,3 +73,15 @@ describe('fobMail client', () => {
     return expect(fobMail({}).labels.list()).rejects.toBeInstanceOf(ApiError);
   });
 });
+
+describe('messages.send', () => {
+  it('posts the message and needs a key', async () => {
+    const calls = mockFetch(() => ({ status: 201, body: { data: { id: 'm1', thread: 't1' } } }));
+    const mail = fobMail(creds);
+    expect(() => mail.messages.send({ mailbox: 'mb1', to: ['a@b.in'], subject: 's', body_text: 'b' })).toThrow(/idempotency_key/);
+    const m = await mail.messages.send({ mailbox: 'mb1', to: ['a@b.in'], subject: 's', body_text: 'b', idempotency_key: 'k' });
+    expect(m.thread).toBe('t1');
+    expect(calls[0].url.pathname).toBe('/api/v1/messages');
+    expect(calls[0].init.method).toBe('POST');
+  });
+});

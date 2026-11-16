@@ -4,7 +4,8 @@ Read, label, assign and reply to a firm's client mail in [Mail](https://mail.fin
 from the terminal, an AI agent, or Node code. One package, two ways in:
 
 - **The CLI** (`fob-mail`): list mailboxes and threads, read messages, download attachments and
-  raw `.eml`, set a thread's status, assignee and labels, and reply from the client's mailbox.
+  raw `.eml`, set a thread's status, assignee and labels, and reply or send new mail from the
+  client's mailbox.
   `--json` on every read command.
 - **The library** (`import { fobMail }`): the same calls for Assembly Lines and scripts. The CLI
   calls the same code, so the two never drift.
@@ -35,7 +36,7 @@ it may use:
 | --- | --- |
 | Read only | List mailboxes, read threads and messages, download attachments |
 | Read and label | Also set status, assignee and labels, create labels |
-| Read, label and send | Also reply from the client's mailbox |
+| Read, label and send | Also reply and send new mail from the client's mailbox |
 
 ```bash
 fob-mail config profiles add kumar-co --api-key fob_mail_xxxxxxxxxxxx --api-secret yyyyyyyy
@@ -53,6 +54,7 @@ fob-mail threads list --status open --label bill
 fob-mail threads show th9a8b7c6d5e
 fob-mail threads edit th9a8b7c6d5e --status waiting --assignee me --add-label chased
 fob-mail threads reply th9a8b7c6d5e --body "Received, thank you."
+fob-mail messages send --mailbox mb4k2x9q1z7c --to billing@vendor.in --subject "Statement for October" --body "Could you send it?"
 fob-mail messages list --direction inbound --updated-since 2026-11-17T09:00:00Z --all --json
 fob-mail attachments pull at0p9o8i7u6y -o ./bills/
 fob-mail messages pull ms1a2s3d4f5g -o invoice.eml
@@ -63,7 +65,7 @@ fob-mail labels create bill
 | --- | --- |
 | `mailboxes` | `list`, `show` |
 | `threads` | `list`, `show`, `edit` (status, assignee, add/remove labels), `reply` |
-| `messages` | `list`, `show` (`--html`), `pull` (raw `.eml`) |
+| `messages` | `list`, `show` (`--html`), `pull` (raw `.eml`), `send` |
 | `attachments` | `pull` |
 | `labels` | `list`, `create` |
 | `config profiles` (alias `orgs`) | `list`, `current`, `add`, `use`, `remove`, `refresh` |
@@ -71,19 +73,19 @@ fob-mail labels create bill
 Every command has `--help` with examples. Lists take `--page`, `--limit`, `--all`, `--fields`,
 `--format table|csv|json` and `--output <file>`; hints go to stderr, data to stdout.
 
-### Replies are never sent twice
+### Nothing is sent twice
 
-A reply carries an idempotency key. Without `--idempotency-key`, `fob-mail` derives one from the
-thread and the text, so running the same command again after a timeout returns the first reply and
-sends nothing. To send the same text again on purpose, pass a new key. A reply whose outcome Gmail
+A reply or a new message carries an idempotency key. Without `--idempotency-key`, `fob-mail`
+derives one from the thread (or mailbox, recipients and subject) and the text, so running the same command again after a timeout returns the first reply and
+sends nothing. To send the same text again on purpose, pass a new key. A send whose outcome Gmail
 didn't confirm is `pending`: check the client's Sent folder before sending it again.
 
 ### What it doesn't do
 
 Mail keeps a copy of each mailbox plus a thread's status, assignee and labels. So `fob-mail` doesn't
 move, delete or mark mail in the client's mailbox, and has no drafts or folders. Connecting a
-mailbox takes the client's sign-in and happens in Mail. Replies are plain text, from Google
-mailboxes, to the last sender; no Cc or attachments yet.
+mailbox takes the client's sign-in and happens in Mail. Mail is sent as plain text from Google
+mailboxes; replies go to the last sender. No attachments yet.
 
 ## As a library
 

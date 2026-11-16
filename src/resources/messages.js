@@ -29,6 +29,17 @@ import { download } from './_download.js';
  * @property {(filters?: MessageFilters) => Promise<Message[]>} getAll - Every matching message (capped at MAX_ALL_ROWS)
  * @property {(id: string) => Promise<Message|null>} get
  * @property {(id: string) => Promise<import('../types/api/Mail.types.js').DownloadedFile>} raw - The stored RFC 822 source
+ * @property {(message: NewMessage) => Promise<Message>} send - A new thread from the mailbox; never sends twice for one key
+ */
+
+/**
+ * @typedef {Object} NewMessage
+ * @property {string} mailbox - Mailbox id to send from
+ * @property {Array<string|{ email: string, name?: string }>} to
+ * @property {Array<string|{ email: string, name?: string }>} [cc]
+ * @property {string} subject
+ * @property {string} body_text
+ * @property {string} idempotency_key - Pick one per composed message; reuse it on retry
  */
 
 /** @param {MessageFilters} [filters] */
@@ -48,5 +59,9 @@ export function buildMessages(ctx) {
     getAll: (filters) => ctx.getAll('/api/v1/messages', { searchParams: params(filters) }).then((r) => r.data),
     get: (id) => ctx.get(`/api/v1/messages/${encodeURIComponent(id)}`).then((r) => r?.data ?? null),
     raw: (id) => download(ctx, `/api/v1/messages/${encodeURIComponent(id)}/raw`),
+    send: (message) => {
+      if (!message?.idempotency_key) throw new Error('send needs an idempotency_key: pick one per composed message and reuse it on retry');
+      return ctx.post('/api/v1/messages', message).then((r) => r?.data);
+    },
   };
 }

@@ -1,17 +1,18 @@
 /**
  * `fob-mail messages <action>` — single messages across threads: new mail since a time, lookup by
- * Message-ID, the full text or HTML, and the raw .eml.
+ * Message-ID, the full text or HTML, the raw .eml, and sending a new message.
  */
 
 import { Command, Option } from 'commander';
 
-import { safe, listOptions, jsonOption, examples } from '../_helpers.js';
+import { safe, listOptions, jsonOption, collect, examples } from '../_helpers.js';
 import { listMessagesHandler } from './list.js';
 import { showMessageHandler } from './show.js';
 import { pullMessageHandler } from './pull.js';
+import { sendMessageHandler } from './send.js';
 
 export function buildMessagesCommand() {
-  const messages = new Command('messages').description('Read messages across threads; download the raw .eml');
+  const messages = new Command('messages').description('Read messages across threads; download the raw .eml; send new mail');
 
   examples(
     listOptions(messages.command('list').description('List messages, oldest first (no bodies unless --with-body)'))
@@ -54,6 +55,27 @@ export function buildMessagesCommand() {
         .option('-o, --output <path>', 'File to write (default: <id>.eml in the current folder; - for stdout)'),
     ).action(safe(pullMessageHandler)),
     ['fob-mail messages pull ms1a2s3d4f5g -o invoice.eml'],
+  );
+
+  examples(
+    jsonOption(
+      messages
+        .command('send')
+        .description("Send a new message from the client's mailbox (plain text, Google mailboxes); never sends twice")
+        .requiredOption('--mailbox <id>', 'Mailbox to send from')
+        .requiredOption('--to <address>', 'Recipient; repeatable', collect)
+        .option('--cc <address>', 'Cc; repeatable', collect)
+        .requiredOption('--subject <text>', 'Subject')
+        .option('--body <text>', 'The message')
+        .option('--body-file <path>', 'Read the message from a file (- for stdin)')
+        .option(
+          '--idempotency-key <key>',
+          'Your id for this message (default: derived from mailbox, recipients, subject and text, so re-running sends nothing)',
+        ),
+    ).action(safe(sendMessageHandler)),
+    [
+      'fob-mail messages send --mailbox mb4k2x9q1z7c --to billing@vendor.in --subject "Statement for October" --body "Could you send the October statement?"',
+    ],
   );
 
   return messages;
