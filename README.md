@@ -20,7 +20,7 @@ th2b3c4d5e6f  open    Bank Alerts     Bank statement, October       2026-11-16 1
 Docs: [CLI](https://mail.finopsbricks.com/docs/cli) ·
 [Use with AI agents](https://mail.finopsbricks.com/docs/cli/ai-agents) ·
 [API reference](https://mail.finopsbricks.com/docs/api/authentication) ·
-[every docs page as Markdown](https://mail.finopsbricks.com/docs/md/sitemap). Beta.
+[every docs page as Markdown](https://mail.finopsbricks.com/llms.txt). Beta.
 
 <sub>Output above is from a stand-in API with sample data.</sub>
 
